@@ -4,13 +4,13 @@ import "./App.scss";
 import useSWR from "swr";
 import { Col, Row } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { BsBoxArrowUpRight } from "react-icons/bs";
+import { BsBoxArrowUpRight, BsBootstrapReboot } from "react-icons/bs";
 import Skeleton from "react-loading-skeleton";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function App() {
-  const [randomFetch, setRandomFetch] = React.useState(false);
+  const [random, setRandom] = React.useState<any>(null);
 
   const { data, error } = useSWR("https://api.publicapis.org/entries", fetcher);
   const { data: category, error: errorCategory } = useSWR(
@@ -18,10 +18,13 @@ function App() {
     fetcher
   );
 
-  const { data: random, error: randomError } = useSWR(
-    randomFetch ? "https://api.publicapis.org/random" : null,
-    fetcher
-  );
+  const getRandom = () => {
+    fetch("https://api.publicapis.org/random")
+      .then((response) => response.json())
+      .then((result: any) => {
+        if (result && result.entries) setRandom(result.entries[0]);
+      });
+  };
 
   const [viewData, setViewData] = useState(18);
 
@@ -61,7 +64,7 @@ function App() {
             <div className="intro__container__title">Next Project API</div>
             <div
               className="intro__container__random"
-              onClick={() => setRandomFetch(true)}
+              onClick={() => getRandom()}
             >
               Random API
             </div>
@@ -69,9 +72,35 @@ function App() {
         </div>
       </div>
 
-      <div className="random">
-        <div className="container"></div>
-      </div>
+      {random ? (
+        <>
+          <div className="random">
+            <div className="container">
+              <div className="random__container">
+                <div className="random__container__header">
+                  <h6>Random API</h6>
+                  <BsBootstrapReboot onClick={() => getRandom()} />
+                </div>
+
+                <div>{random.API}</div>
+
+                <div className="random__container__subtitle">
+                  {random.Category}
+                </div>
+                <div className="random__container__description">
+                  {random.Description}
+                </div>
+
+                <div className="random__container__bottom">
+                  <div>Auth: ApiKey Https: Yes Cors: Yes</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
 
       <div className="container">
         <div className="filter-container">
