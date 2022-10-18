@@ -1,12 +1,238 @@
+.intro {
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__title {
+      font-size: 1.2rem;
+      color: white;
+      font-weight: 100;
+    }
+
+    &__random {
+      cursor: pointer;
+      font-size: 1rem;
+      color: white;
+      background-color: #1e1e1e;
+      border-radius: 0.2rem;
+      padding: 0.1rem 1rem;
+
+      &:hover {
+        color: #1e1e1e;
+        background-color: white;
+      }
+    }
+  }
+}
+
+.filter-container {
+  margin-bottom: 1rem;
+  gap: 1rem;
+
+  &__search-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    &__label {
+      color: #a1a1a1;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      border-radius: 0.2rem;
+      padding: 0.1rem 0.5rem;
+      background-color: #1e1e1e;
+      color: #a1a1a1;
+      width: 100%;
+    }
+  }
+
+  &__select-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    &__label {
+      color: #a1a1a1;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    &__select {
+      height: 1.7rem;
+      border: none;
+      outline: none;
+      border-radius: 0.2rem;
+      background-color: #1e1e1e;
+      color: #a1a1a1;
+      padding: 0rem 0.2rem;
+      width: 100%;
+    }
+  }
+}
+
 .list-container {
   overflow: hidden !important;
 
   &__item {
     cursor: pointer;
+    height: 200px;
     padding: 1rem;
-    border-radius: 0.5em;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.2rem;
     margin-bottom: 1rem;
-    box-shadow: 0px 0px 11px -3px rgb(0 0 0 / 10%);
+    //box-shadow: 0px 0px 11px -3px rgb(255 255 255 / 10%);
+    position: relative;
+    background-color: #1e1e1e;
+    color: white;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__title {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    &__subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #a1a1a1;
+    }
+
+    &__description {
+      font-size: 0.9rem;
+      color: #a1a1a1;
+    }
+
+    &__line {
+      position: absolute;
+      bottom: 3rem;
+      left: 0;
+      right: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &__bottom {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+
+      &__container {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        &__item {
+          display: flex;
+          gap: 0.5rem;
+
+          &--type {
+            color: gray;
+          }
+        }
+      }
+    }
+  }
+}
+
+.skeleton-card {
+  height: 200px;
+  padding: 1rem;
+  border-radius: 0.5em;
+  margin-bottom: 1rem;
+  position: relative;
+  background-color: #1e1e1e;
+  position: relative;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+
+    &--title {
+      width: 60%;
+      animation: skeleton-loading 1s linear infinite alternate;
+      height: 1rem;
+    }
+
+    &--button {
+      width: 5%;
+      animation: skeleton-loading 1s linear infinite alternate;
+      height: 1rem;
+    }
+  }
+
+  &__subtitle {
+    width: 30%;
+    animation: skeleton-loading 1s linear infinite alternate;
+    height: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  &__description {
+    width: 80%;
+    animation: skeleton-loading 1s linear infinite alternate;
+    height: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+
+  &__line {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__bottom {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 1rem;
+    right: 1rem;
+
+    &__container {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      &__item {
+        width: 70px;
+        animation: skeleton-loading 1s linear infinite alternate;
+        height: 0.9rem;
+      }
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.skeleton {
+  width: 100%;
+  height: 0.5rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
   }
 }
