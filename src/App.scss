@@ -1,0 +1,12 @@
+.list-container {
+  overflow: hidden !important;
+
+  &__item {
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 0.5em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    box-shadow: 0px 0px 11px -3px rgb(0 0 0 / 10%);
+  }
+}
