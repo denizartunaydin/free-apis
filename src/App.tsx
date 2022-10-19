@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.scss";
 import useSWR from "swr";
-import { Col, Row } from "react-bootstrap";
+import { Col, Modal, Row } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BsBoxArrowUpRight, BsBootstrapReboot } from "react-icons/bs";
 import Skeleton from "react-loading-skeleton";
@@ -11,6 +11,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function App() {
   const [random, setRandom] = React.useState<any>(null);
+  const [modal, setModal] = React.useState<boolean>(false);
 
   const { data, error } = useSWR("https://api.publicapis.org/entries", fetcher);
   const { data: category, error: errorCategory } = useSWR(
@@ -22,7 +23,10 @@ function App() {
     fetch("https://api.publicapis.org/random")
       .then((response) => response.json())
       .then((result: any) => {
-        if (result && result.entries) setRandom(result.entries[0]);
+        if (result && result.entries) {
+          setRandom(result.entries[0]);
+          setModal(true);
+        }
       });
   };
 
@@ -71,36 +75,6 @@ function App() {
           </div>
         </div>
       </div>
-
-      {random ? (
-        <>
-          <div className="random">
-            <div className="container">
-              <div className="random__container">
-                <div className="random__container__header">
-                  <h6>Random API</h6>
-                  <BsBootstrapReboot onClick={() => getRandom()} />
-                </div>
-
-                <div>{random.API}</div>
-
-                <div className="random__container__subtitle">
-                  {random.Category}
-                </div>
-                <div className="random__container__description">
-                  {random.Description}
-                </div>
-
-                <div className="random__container__bottom">
-                  <div>Auth: ApiKey Https: Yes Cors: Yes</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
 
       <div className="container">
         <div className="filter-container">
@@ -335,6 +309,70 @@ function App() {
           </>
         )}
       </div>
+
+      <Modal show={modal} animation={true}>
+        <div className="custom-modal">
+          <div className="custom-modal__header">
+            <div>Random API</div>
+            <BsBootstrapReboot onClick={() => getRandom()} />
+          </div>
+
+          <div className="custom-modal__body">
+            {random ? (
+              <>
+                <div className="custom-modal__body__title">{random.API}</div>
+
+                <div className="custom-modal__body__category">
+                  {random.Category}
+                </div>
+                <div className="custom-modal__body__description">
+                  {random.Description}
+                </div>
+
+                <div className="custom-modal__body__bottom">
+                  <div className="custom-modal__body__bottom__item">
+                    <div className="custom-modal__body__bottom__item--type">
+                      Auth:
+                    </div>
+                    <div>
+                      {random.Auth.length > 0
+                        ? random.Auth.charAt(0).toUpperCase() +
+                          random.Auth.slice(1)
+                        : "No"}
+                    </div>
+                  </div>
+
+                  <div className="custom-modal__body__bottom__item">
+                    <div className="custom-modal__body__bottom__item--type">
+                      Https:
+                    </div>
+                    <div>{random.HTTPS ? "Yes" : "No"}</div>
+                  </div>
+
+                  <div className="custom-modal__body__bottom__item">
+                    <div className="custom-modal__body__bottom__item--type">
+                      Cors:
+                    </div>
+                    <div>
+                      {random.Cors.charAt(0).toUpperCase() +
+                        random.Cors.slice(1)}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className="custom-modal__footer">
+            <div onClick={() => setModal(false)}>Close</div>
+            <div onClick={() => window.open(random.Link, "_blank")}>
+              View Detail
+            </div>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }
